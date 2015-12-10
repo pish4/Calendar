@@ -55,7 +55,9 @@ app.get('/users', function(req, res) {
 
 app.get("*", function (req, res) {//у випадку будь якого GET запиту який не має роута
     res.sendFile('public/views/login.html', { //відправити в браузер файл index.html
-        root: __dirname //використовувавти для файлу index.html public папку яу корневу (__dirname вказується за допомогою app.use(express.static('public'));)
+        //використовувавти для файлу index.html public папку яу корневу 
+        //(__dirname вказується за допомогою app.use(express.static('public'));)
+        root: __dirname 
     });
 });
 
