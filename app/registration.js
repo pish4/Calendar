@@ -6,21 +6,18 @@ var User   = require('./models/user');
 var path = require('path');
 
 routes.get('/', function (req, res) {
-    console.log('request handled');
     res.sendFile(path.resolve('./public/views/registration.html'));
 })
 
 routes.post('/', function(req, res) {
     // find the user
     User.findOne({
-        phone: req.body.phone
+        phone: req.body.phoneNumber
     }, function(err, user) {
 
         if (err) throw err;
 
-        if (user) {
-            res.status(409).send('User with this phone number already exists');
-        } else if (!user) {
+        if (!user) {
             var newUser = new User({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
@@ -29,7 +26,9 @@ routes.post('/', function(req, res) {
             });
             newUser.save();
 
-            res.sendfile(path.resolve('./public/views/login.html'));
+            res.sendFile(path.resolve('./public/views/login.html'));
+        } else {
+            res.status(409).send('User with this phone number already exists');
         }
 
     });
