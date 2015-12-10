@@ -62,4 +62,4 @@ app.get("*", function (req, res) {//у випадку будь якого GET з
 /* serves main page */
 
 
-app.listen(443);
+app.listen(3000);
