@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+
+    <link rel="stylesheet" href="css/login.css"/>
+</head>
+<body>
+<div class="container  col-md-4 col-md-offset-4">
+    <div class="card card-container">
+        <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+        <img id="profile-img" class="profile-img-card" src="http://thewashhouse.org/wp/wp-content/uploads/2013/12/events-calendar-icon.png" />
+        <p id="profile-name" class="profile-name-card"></p>
+        <div class="form-signin">
+            <span id="reauth-email" class="reauth-email"></span>
+            <input type="text" id="phone" class="form-control" placeholder="Telephone number" required autofocus>
+
+            <button id="signIn" class="btn btn-lg btn-primary btn-block btn-signin" >Sign in</button>
+            <button onclick="location.href='/register';" class="btn  btn-info  " >Register</button>
+        </div><!-- /form -->
+
+    </div><!-- /card-container -->
+</div><!-- /container -->
+</body>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="js/login.js"></script>
+
+</html>
