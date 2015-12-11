@@ -1,0 +1,46 @@
+#calendarTable{
+    border-collapse:separate;
+    padding: 10px;
+    font-size: x-large;
+    border-spacing: 5px;
+    text-align: center;
+}
+
+#nonDay
+{
+    color:#f4f7f9;
+    background-color: #f4f7f9;
+    border-color:#f4f7f9;
+    box-shadow: none;
+}
+
+.nonBord
+{
+    border: 1px solid #f4f7f9;
+}
+
+td{
+    text-align: center;
+    padding: 5px;
+    width: 50px;
+    height: 50px;
+    border: 2px solid #49d3ff;
+}
+
+th{
+    border-spacing: 5px;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    border: 11px solid #f4f7f9;
+}
+
+
+h2{
+    text-align: center;
+}
+
+#panelColor{
+    background-color: #f4f7f9;
+}
+

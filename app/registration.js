@@ -26,7 +26,7 @@ routes.post('/', function(req, res) {
             });
             newUser.save();
 
-            res.sendFile(path.resolve('./public/views/login.html'));
+            res.sendFile(path.resolve('./public/views/month-page.html'));
         } else {
             res.status(409).send('User with this phone number already exists');
         }

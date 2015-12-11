@@ -9,6 +9,7 @@ var cookieParser = require('cookie-parser');
 var db = mongoose.connect(config.database);//під"єднання до бази данних
 var auth = require('./app/auth');
 var registration = require('./app/registration');
+var path = require('path');
 //налаштування сервера
 
 app.use(express.static('public')); //папка яка буде кореневою (__dirname = public)
@@ -44,8 +45,9 @@ app.get('/setup', function(req, res) {
     });
 });
 
-
-
+app.get('/calendar', function (req, res) {
+    res.sendFile(path.resolve('public/views/month-page.html'));
+});
 
 app.get('/users', function(req, res) {
     User.find({}, function(err, users) {
