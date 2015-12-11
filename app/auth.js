@@ -1,19 +1,19 @@
 var express = require('express');
 var routes = express.Router();
 var config = require('../config');
-var jwt    = require('jsonwebtoken');
-var User   = require('./models/user');
+var jwt = require('jsonwebtoken');
+var User = require('./models/user');
 var path = require('path');
 
-routes.get('/login', function(req, res) {
+routes.get('/login', function (req, res) {
     return res.sendFile(path.resolve('./public/views/login.html'));
 });
 
-routes.post('/login', function(req, res) {
+routes.post('/login', function (req, res) {
     // find the user
     User.findOne({
         phone: req.body.phone
-    }, function(err, user) {
+    }, function (err, user) {
 
         if (err) throw err;
 
@@ -22,7 +22,12 @@ routes.post('/login', function(req, res) {
         } else if (user) {
             // if user is found and password is right
             // create a token
-            login(res);
+            var token = jwt.sign(user, config.password, {
+                expiresIn: 1440 * 60 // expires in 24 hours
+            });
+
+            res.cookie('auth', token, {maxAge: 10000000000});
+            // return the information including token as JSON
             res.json({
                 success: true,
                 message: 'You were successfully logged in'
@@ -32,7 +37,7 @@ routes.post('/login', function(req, res) {
     });
 });
 
-routes.use(function(req, res, next) {
+routes.use(function (req, res, next) {
 
     // check header or url parameters or post parameters for token
     var token = req.cookies.auth;
@@ -41,9 +46,9 @@ routes.use(function(req, res, next) {
     if (token) {
 
         // verifies secret and checks exp
-        jwt.verify(token, config.password, function(err, decoded) {
+        jwt.verify(token, config.password, function (err, decoded) {
             if (err) {
-                return res.json({ success: false, message: 'Failed to authenticate token.' });
+                return res.json({success: false, message: 'Failed to authenticate token.'});
             } else {
                 // if everything is good, save to request for use in other routes
                 req.decoded = decoded;
@@ -56,20 +61,12 @@ routes.use(function(req, res, next) {
     }
 });
 
-routes.get('/logout', function(req, res){
+routes.get('/logout', function (req, res) {
     res.clearCookie('auth');
     res.redirect('/login');
 });
 
-function login(res) {
-    var token = jwt.sign(user, config.password, {
-        expiresIn: 1440 * 60 // expires in 24 hours
-    });
 
-    res.cookie('auth', token, { maxAge: 10000000000 });
-    // return the information including token as JSON
-}
 
 
 module.exports = routes;
-module.exports.login = login;

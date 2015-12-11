@@ -4,7 +4,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var config = require('./config');
-var User   = require('./app/models/user');
+var User = require('./app/models/user');
 var cookieParser = require('cookie-parser');
 var db = mongoose.connect(config.database);//під"єднання до бази данних
 var auth = require('./app/auth');
@@ -33,7 +33,7 @@ app.get('/calendar', function (req, res) {
 });
 
 
-app.get('/setup', function(req, res) {
+app.get('/setup', function (req, res) {
 
     // create a sample user
     var nick = new User({
@@ -44,16 +44,16 @@ app.get('/setup', function(req, res) {
     });
 
     // save the sample user
-    nick.save(function(err) {
+    nick.save(function (err) {
         if (err) throw err;
 
         console.log('User saved successfully');
-        res.json({ success: true });
+        res.json({success: true});
     });
 });
 
-app.get('/users', function(req, res) {
-    User.find({}, function(err, users) {
+app.get('/users', function (req, res) {
+    User.find({}, function (err, users) {
         res.json(users);
     });
 });
