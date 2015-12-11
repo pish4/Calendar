@@ -6,7 +6,7 @@ var User   = require('./models/user');
 var path = require('path');
 
 routes.get('/', function (req, res) {
-    res.sendFile(path.resolve('./public/views/registration.html'));
+    res.render('registration.html');
 })
 
 routes.post('/', function(req, res) {
@@ -26,7 +26,7 @@ routes.post('/', function(req, res) {
             });
             newUser.save();
 
-            res.sendFile(path.resolve('./public/views/login.html'));
+            res.render('login.html');
         } else {
             res.status(409).send('User with this phone number already exists');
         }

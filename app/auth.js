@@ -56,8 +56,7 @@ routes.use(function(req, res, next) {
         });
 
     } else {
-
-        return res.status(403).sendFile(path.resolve('./public/views/login.html'));
+        return res.status(403).render('login.html');
     }
 });
 

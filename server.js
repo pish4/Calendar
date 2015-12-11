@@ -9,6 +9,7 @@ var cookieParser = require('cookie-parser');
 var db = mongoose.connect(config.database);//під"єднання до бази данних
 var auth = require('./app/auth');
 var registration = require('./app/registration');
+var nunjucks = require('nunjucks');
 //налаштування сервера
 
 app.use(express.static('public')); //папка яка буде кореневою (__dirname = public)
@@ -19,6 +20,15 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(cookieParser(config.password));
+
+//set view folder
+//you could render your html just runing  res.render('login.html');
+//I don`t know wat autoescape mean
+nunjucks.configure('public/views/', {
+    autoescape: true,
+    express: app
+});
+
 
 //REST роути сервера
 
@@ -54,14 +64,9 @@ app.get('/users', function(req, res) {
 });
 
 app.get("*", function (req, res) {//у випадку будь якого GET запиту який не має роута
-    res.sendFile('public/views/login.html', { //відправити в браузер файл index.html
-        //використовувавти для файлу index.html public папку яу корневу 
-        //(__dirname вказується за допомогою app.use(express.static('public'));)
-        root: __dirname 
-    });
+    res.render('login.html');
 });
 
 /* serves main page */
-
-
+//site port
 app.listen(3000);
