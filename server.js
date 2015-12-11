@@ -4,7 +4,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var config = require('./config');
-var User   = require('./app/models/user');
+var User = require('./app/models/user');
 var cookieParser = require('cookie-parser');
 var db = mongoose.connect(config.database);//під"єднання до бази данних
 var nunjucks = require('nunjucks');
@@ -18,8 +18,10 @@ var profile = require('./app/profile');
 //~controllers
 
 
-
+var path = require('path');
 app.use(express.static('public')); //папка яка буде кореневою (__dirname = public)
+
+//налаштування сервера
 app.set('superSecret', config.password);
 //налаштування bodyParser модуля
 app.use(bodyParser.json());
@@ -40,15 +42,16 @@ nunjucks.configure('public/views/', {
 //REST роути сервера
 
 app.use('/register', registration);
+
 app.use('/', auth);
 app.use('/profile', profile);
 
-app.use('/js', express.static(__dirname + '/public/js'));
-app.use('/css', express.static(__dirname + '/public/css'));
-app.use('/images', express.static(__dirname + '/public/images'));
+app.get('/calendar', function (req, res) {
+    res.sendFile(path.resolve('public/views/month-page.html'));
+});
 
 //POST запид до login адресси, авторизація користувача
-app.get('/setup', function(req, res) {
+app.get('/setup', function (req, res) {
 
     // create a sample user
     var nick = new User({
@@ -59,28 +62,26 @@ app.get('/setup', function(req, res) {
     });
 
     // save the sample user
-    nick.save(function(err) {
+    nick.save(function (err) {
         if (err) throw err;
 
         console.log('User saved successfully');
-        res.json({ success: true });
+        res.json({success: true});
     });
 });
 
-
-
-
-app.get('/users', function(req, res) {
-    User.find({}, function(err, users) {
+app.get('/users', function (req, res) {
+    User.find({}, function (err, users) {
         res.json(users);
     });
 });
 
-//у випадку будь якого GET запиту який не має роута
-app.get("*", function (req, res) {
-    res.redirect('/login/');
-});
 
 /* serves main page */
 //site port
+//у випадку будь якого GET запиту який не має роута відправити на логін
+app.get("*", function (req, res) {
+    res.redirect('/login')
+});
+
 app.listen(3000);

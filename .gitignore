@@ -1,4 +1,4 @@
-node_modules
-public/libs
-.vscode
-.idea
+node_modules/
+public/libs/
+.vscode/
+.idea/
