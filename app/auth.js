@@ -5,6 +5,10 @@ var jwt    = require('jsonwebtoken');
 var User   = require('./models/user');
 var path = require('path');
 
+routes.get('/login', function(req, res) {
+    return res.sendFile(path.resolve('./public/views/login.html'));
+});
+
 routes.post('/login', function(req, res) {
     // find the user
     User.findOne({
@@ -56,14 +60,13 @@ routes.use(function(req, res, next) {
         });
 
     } else {
-
-        return res.status(403).sendFile(path.resolve('./public/views/login.html'));
+        return res.status(403).redirect('/login');
     }
 });
 
 routes.get('/logout', function(req, res){
     res.clearCookie('auth');
-    res.redirect('back');
+    res.redirect('/login');
 });
 
 module.exports = routes;
