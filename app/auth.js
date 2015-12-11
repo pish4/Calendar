@@ -30,14 +30,12 @@ routes.post('/login', function(req, res) {
                 message: 'Enjoy your token!'
             });
 
-
         }
 
     });
 });
 
 routes.use(function(req, res, next) {
-
     // check header or url parameters or post parameters for token
     var token = req.cookies.auth;
 
@@ -51,16 +49,18 @@ routes.use(function(req, res, next) {
             } else {
                 // if everything is good, save to request for use in other routes
                 req.decoded = decoded;
-                next();
             }
         });
+    } 
+    next();
+});
 
-    } else {
-        return res.status(403).render('login.html');
-    }
+routes.get('/login', function(req, res){
+    res.render('login.html')
 });
 
 routes.get('/logout', function(req, res){
+    console.log("3")
     res.clearCookie('auth');
     res.redirect('back');
 });

@@ -3,11 +3,12 @@
  */
 $(function() {
     $('#signIn').click(function () {
-        $.post('/login', {phone : $('#phone').val()})
+    	var phone_number = $('#phone').val()
+        $.post('/login', {phone : phone_number})
             .then(function(){
-                alert("logged in succesfully");
+            	window.location.replace("/profile/" + phone_number);
             },
-            function() {
+            function() {	
                 alert("wrong number");
             });
     });

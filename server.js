@@ -7,10 +7,17 @@ var config = require('./config');
 var User   = require('./app/models/user');
 var cookieParser = require('cookie-parser');
 var db = mongoose.connect(config.database);//під"єднання до бази данних
-var auth = require('./app/auth');
-var registration = require('./app/registration');
 var nunjucks = require('nunjucks');
 //налаштування сервера
+
+
+//controllers
+var auth = require('./app/auth');
+var registration = require('./app/registration');
+var profile = require('./app/profile');
+//~controllers
+
+
 
 app.use(express.static('public')); //папка яка буде кореневою (__dirname = public)
 app.set('superSecret', config.password);
@@ -34,6 +41,12 @@ nunjucks.configure('public/views/', {
 
 app.use('/register', registration);
 app.use('/', auth);
+app.use('/profile', profile);
+
+app.use('/js', express.static(__dirname + '/public/js'));
+app.use('/css', express.static(__dirname + '/public/css'));
+app.use('/images', express.static(__dirname + '/public/images'));
+
 //POST запид до login адресси, авторизація користувача
 app.get('/setup', function(req, res) {
 
@@ -63,8 +76,9 @@ app.get('/users', function(req, res) {
     });
 });
 
-app.get("*", function (req, res) {//у випадку будь якого GET запиту який не має роута
-    res.render('login.html');
+//у випадку будь якого GET запиту який не має роута
+app.get("*", function (req, res) {
+    res.redirect('/login/');
 });
 
 /* serves main page */
