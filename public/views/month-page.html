@@ -15,7 +15,7 @@
         var day_of_month = dDate.getDate();
         var cur_year = dDate.getFullYear();
 
-        var Prev_Element = new Object();
+        var Prev_Element = {};
         var bgcolor, webgcolor, wecolor, nwecolor, tbgcolor, ntbgcolor, sbgcolor;
 
 
@@ -41,8 +41,8 @@
 
         function build_cal(iYear, iMonth)
         {
-            var the_month=new Array();
-            the_month[0]=new Array("Пн","Вт","Ср","Чт","Пт","Сб","Нд");
+            var the_month=[];
+            the_month[0]=["Пн","Вт","Ср","Чт","Пт","Сб","Нд"];
             var dCalDate=new Date(iYear, iMonth-1, 1);
             var day_first=dCalDate.getDay();
 

@@ -24,8 +24,15 @@ app.use(cookieParser(config.password));
 //REST роути сервера
 
 app.use('/register', registration);
+
 app.use('/', auth);
-//POST запид до login адресси, авторизація користувача
+
+
+app.get('/calendar', function (req, res) {
+    res.sendFile(path.resolve('public/views/month-page.html'));
+});
+
+
 app.get('/setup', function(req, res) {
 
     // create a sample user
@@ -55,13 +62,8 @@ app.get('/users', function(req, res) {
     });
 });
 
-app.get("*", function (req, res) {//у випадку будь якого GET запиту який не має роута
-    res.sendFile('public/views/login.html', { //відправити в браузер файл index.html
-        root: __dirname //використовувавти для файлу index.html public папку яу корневу (__dirname вказується за допомогою app.use(express.static('public'));)
-    });
+app.get("*", function (req, res) {//у випадку будь якого GET запиту який не має роута відправити на логін
+    res.redirect('/login')
 });
-
-/* serves main page */
-
 
 app.listen(3000);
