@@ -23,6 +23,7 @@ routes.post('/login', function (req, res) {
             });
 
             res.cookie('auth', token, {maxAge: 10000000000});
+            res.cookie('auth', token, { maxAge: 10000000000 });
             // return the information including token as JSON
             res.json({
                 success: true,
@@ -61,6 +62,5 @@ routes.get('/logout', function (req, res) {
     res.clearCookie('auth');
     res.redirect('/login');
 });
-
 
 module.exports = routes;

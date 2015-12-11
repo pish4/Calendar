@@ -70,8 +70,12 @@ app.get('/setup', function (req, res) {
     });
 });
 
-app.get('/users', function (req, res) {
-    User.find({}, function (err, users) {
+app.get('/calendar', function (req, res) {
+    res.sendFile(path.resolve('public/views/month-page.html'));
+});
+
+app.get('/users', function(req, res) {
+    User.find({}, function(err, users) {
         res.json(users);
     });
 });
