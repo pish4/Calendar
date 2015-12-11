@@ -20,21 +20,13 @@ routes.post('/login', function(req, res) {
         if (!user) {
             res.status(400).send('Number does not exist');
         } else if (user) {
-
             // if user is found and password is right
             // create a token
-            var token = jwt.sign(user, config.password, {
-                expiresIn: 1440 * 60 // expires in 24 hours
-            });
-
-            res.cookie('auth', token, { maxAge: 10000000000 });
-            // return the information including token as JSON
+            login(res);
             res.json({
                 success: true,
-                message: 'Enjoy your token!'
+                message: 'You were successfully logged in'
             });
-
-
         }
 
     });
@@ -69,4 +61,15 @@ routes.get('/logout', function(req, res){
     res.redirect('/login');
 });
 
+function login(res) {
+    var token = jwt.sign(user, config.password, {
+        expiresIn: 1440 * 60 // expires in 24 hours
+    });
+
+    res.cookie('auth', token, { maxAge: 10000000000 });
+    // return the information including token as JSON
+}
+
+
 module.exports = routes;
+module.exports.login = login;
