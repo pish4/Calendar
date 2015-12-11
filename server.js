@@ -8,6 +8,7 @@ var User   = require('./app/models/user');
 var cookieParser = require('cookie-parser');
 var db = mongoose.connect(config.database);//під"єднання до бази данних
 var auth = require('./app/auth');
+var registration = require('./app/registration');
 //налаштування сервера
 
 app.use(express.static('public')); //папка яка буде кореневою (__dirname = public)
@@ -21,6 +22,7 @@ app.use(cookieParser(config.password));
 
 //REST роути сервера
 
+app.use('/register', registration);
 app.use('/', auth);
 //POST запид до login адресси, авторизація користувача
 app.get('/setup', function(req, res) {
@@ -41,7 +43,6 @@ app.get('/setup', function(req, res) {
         res.json({ success: true });
     });
 });
-
 
 
 
