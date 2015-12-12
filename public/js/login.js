@@ -30,5 +30,4 @@ $(function() {
         }
         $('.form-signin').addClass('has-error');
     }
-
 });

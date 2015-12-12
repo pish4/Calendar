@@ -6,7 +6,7 @@ var User   = require('./models/user');
 var path = require('path');
 
 routes.get('/', function (req, res) {
-    res.sendFile(path.resolve('./public/views/registration.html'));
+    res.render('registration.html');
 })
 
 routes.post('/', function(req, res) {
