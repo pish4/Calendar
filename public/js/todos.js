@@ -61,5 +61,4 @@ $(document).ready(function() {
         event_type_id: String,
         date: String }, callback);
 
-
 });
