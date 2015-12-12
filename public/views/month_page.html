@@ -1,22 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="../css/month-page-styles.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-</head>
-<body>
-    <script>
+
+{% extends 'layout.html' %}
+
+{% block title %}Calendar{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="/css/month-page-styles.css">
+{% endblock %}
+
+{% block content %}
+<script>
         var dDate = new Date();
         var cur_month = dDate.getMonth();
         var day_of_month = dDate.getDate();
         var cur_year = dDate.getFullYear();
 
         var Prev_Element = {};
-        var bgcolor, webgcolor, wecolor, nwecolor, tbgcolor, ntbgcolor, sbgcolor;
+        var wecolor, ntbgcolor, sbgcolor;
 
 
         function opted_day(el)
@@ -89,7 +88,7 @@
             return the_month;
         }
 
-        function draw_cal(iYear, iMonth, cell_width, cell_height, text_weight, iwecolor, intbgcolor, isbgcolor) {
+        function draw_cal(iYear, iMonth, cell_width, cell_height, text_weight, iwecolor, intbgcolor, isbgcolor)  {
 
             wecolor=iwecolor;
             ntbgcolor=intbgcolor;
@@ -195,7 +194,16 @@
                                             break;
 
                                     }
-                                    document.write("<h2>" + monthName + "</h2>");
+                                    document.write("<h2><strong>" + monthName + "</strong></h2>");
+                                </script>
+
+                                <h3>Профіль</h3>
+
+                                <select name="sel_profile" onchange=''>
+
+                                </select>
+
+                                <script>
                                     var cur_date=new Date();
                                     draw_cal(cur_date.getFullYear(), cur_date.getMonth() + 1, 30, 16, "green", "green", "#26d9d9", "#F6F6F6");
                                     cur_month.options[cur_date.getMonth()].selected=true;
@@ -206,5 +214,7 @@
                 </div>
             </div>
         </div>
-    </body>
-</html>
+{% endblock %}
+
+{% block body_end %}
+{% endblock %}
