@@ -18,6 +18,7 @@
         var wecolor, ntbgcolor, sbgcolor;
 
 
+
         function opted_day(el)
         { //обраний день
             if (el.id == "cal_cell")
@@ -28,6 +29,15 @@
                     Prev_Element.bgColor=ntbgcolor;
                     document.all.selected_date.value=parseInt(el.children["cal_text"].innerText);
                     Prev_Element=el;
+                    console.log(document.getElementById('sel_profile'));
+                    var selectedValue =$('#sel_profile').find(":selected").attr('id') ;
+
+                    var url = '/notes?date=' + document.all.selected_date.value+'/'+cur_month + '/' + cur_year + '&eventId='
+
+                            + selectedValue;
+
+                    location.href=url;
+
                 }
             }
         }
@@ -87,6 +97,7 @@
             }
             return the_month;
         }
+
 
         function draw_cal(iYear, iMonth, cell_width, cell_height, text_weight, iwecolor, intbgcolor, isbgcolor)  {
 
@@ -199,8 +210,10 @@
 
                                 <h3>Профіль</h3>
 
-                                <select name="sel_profile" onchange=''>
-
+                                <select name="sel_profile" id = "sel_profile" onchange='changeEvent()'>
+                                    {% for event in events %}
+                                    <option value="event.event_name" id="{{event._id}}">{{event.event_name}}</option>
+                                    {% endfor %}
                                 </select>
 
                                 <script>
