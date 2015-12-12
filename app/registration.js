@@ -1,13 +1,13 @@
 var express = require('express');
 var routes = express.Router();
 var config = require('../config');
-var jwt    = require('jsonwebtoken');
+var auth = require('./auth');
 var User   = require('./models/user');
-var path = require('path');
+
 
 routes.get('/', function (req, res) {
     res.render('registration.html');
-})
+});
 
 routes.post('/', function(req, res) {
     // find the user
@@ -28,13 +28,7 @@ routes.post('/', function(req, res) {
 
             // if user is found and password is right
             // create a token
-            var token = jwt.sign(newUser, config.password, {
-                expiresIn: 1440 * 60 // expires in 24 hours
-            });
-
-            res.cookie('auth', token, { maxAge: 10000000000 });
-            // return the information including token as JSON
-
+            auth.authUser(res, newUser);
             res.redirect('/calendar');
         } else {
             res.status(409).send('User with this phone number already exists');

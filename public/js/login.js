@@ -5,6 +5,7 @@ $(function() {
          '<strong>Error: </strong> <span id="errorText">Number not found </span>' +
     '</div>';
     var PHONE_REGEX = /^0\d{9}$/;
+
     $('#signIn').click(function () {
         var phone = $('#phone').val();
         if(!PHONE_REGEX.test(phone)) {

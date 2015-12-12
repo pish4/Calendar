@@ -6,7 +6,7 @@ var User = require('./models/user');
 var path = require('path');
 
 routes.get('/login', function (req, res) {
-    return res.sendFile(path.resolve('./public/views/login.html'));
+    return res.render(path.resolve('./public/views/login.html'));
 });
 
 routes.post('/login', function (req, res) {
@@ -22,11 +22,7 @@ routes.post('/login', function (req, res) {
         } else if (user) {
             // if user is found and password is right
             // create a token
-            var token = jwt.sign(user, config.password, {
-                expiresIn: 1440 * 60 // expires in 24 hours
-            });
-
-            res.cookie('auth', token, {maxAge: 10000000000});
+            authUser(res, user);
             // return the information including token as JSON
             res.json({
                 success: true,
@@ -44,14 +40,13 @@ routes.use(function (req, res, next) {
 
     // decode token
     if (token) {
-
         // verifies secret and checks exp
         jwt.verify(token, config.password, function (err, decoded) {
             if (err) {
                 return res.json({success: false, message: 'Failed to authenticate token.'});
             } else {
                 // if everything is good, save to request for use in other routes
-                req.decoded = decoded;
+                req.user = decoded;
                 next();
             }
         });
@@ -67,6 +62,12 @@ routes.get('/logout', function (req, res) {
 });
 
 
-
+function authUser(res, user) {
+    var token = jwt.sign(user, config.password, {
+        expiresIn: 1440 * 60 // expires in 24 hours
+    });
+    res.cookie('auth', token, {maxAge: 10000000000});
+}
 
 module.exports = routes;
+module.exports.authUser = authUser;
