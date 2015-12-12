@@ -126,7 +126,7 @@ app.get('/notes', function(req, res) {
 //site port
 //у випадку будь якого GET запиту який не має роута відправити на логін
 app.get("*", function (req, res) {
-    res.redirect('/login')
+    res.redirect('/calendar')
 });
 
 

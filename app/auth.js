@@ -5,6 +5,10 @@ var jwt = require('jsonwebtoken');
 var User = require('./models/user');
 var path = require('path');
 
+routes.get('/login', function (req, res) {
+    return res.render(path.resolve('./public/views/login.html'));
+});
+
 routes.post('/login', function (req, res) {
     // find the user
     User.findOne({
@@ -18,37 +22,52 @@ routes.post('/login', function (req, res) {
         } else if (user) {
             // if user is found and password is right
             // create a token
-            var token = jwt.sign(user, config.password, {
-                expiresIn: 1440 * 60 // expires in 24 hours
+            authUser(res, user);
+            // return the information including token as JSON
+            res.json({
+                success: true,
+                message: 'You were successfully logged in'
             });
-
-            res.cookie('auth', token, {maxAge: 10000000000});
-
-            res.redirect('/calendar');
         }
+
     });
 });
 
-var get_user_from_token = function(token, callback){
+routes.use(function (req, res, next) {
+
+    // check header or url parameters or post parameters for token
+    var token = req.cookies.auth;
+
+    // decode token
     if (token) {
         // verifies secret and checks exp
         jwt.verify(token, config.password, function (err, decoded) {
-            if (!err) {
-                callback(decoded)
+            if (err) {
+                return res.json({success: false, message: 'Failed to authenticate token.'});
+            } else {
+                // if everything is good, save to request for use in other routes
+                req.user = decoded;
+                next();
             }
         });
-    } 
-}
 
-routes.get('/login', function(req, res){
-    res.render('login.html')
+    } else {
+        return res.status(403).redirect('/login');
+    }
 });
-
 
 routes.get('/logout', function (req, res) {
     res.clearCookie('auth');
     res.redirect('/login');
 });
 
+
+function authUser(res, user) {
+    var token = jwt.sign(user, config.password, {
+        expiresIn: 1440 * 60 // expires in 24 hours
+    });
+    res.cookie('auth', token, {maxAge: 10000000000});
+}
+
 module.exports = routes;
-module.exports.get_user_from_token = get_user_from_token;
+module.exports.authUser = authUser;
