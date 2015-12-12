@@ -1,15 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="../css/month-page-styles.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-</head>
-<body>
-    <script>
+
+{% extends 'layout.html' %}
+
+{% block title %}Calendar{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="/css/month-page-styles.css">
+{% endblock %}
+
+{% block content %}
+<script>
         var dDate = new Date();
         var cur_month = dDate.getMonth();
         var day_of_month = dDate.getDate();
@@ -215,5 +214,7 @@
                 </div>
             </div>
         </div>
-    </body>
-</html>
+{% endblock %}
+
+{% block body_end %}
+{% endblock %}
