@@ -18,6 +18,7 @@ var auth = require('./app/auth');
 var registration = require('./app/registration');
 var profile = require('./app/profile');
 var month_page = require('./app/month_page');
+var todo = require('./app/todo');
 //~controllers
 
 
@@ -48,8 +49,8 @@ app.use('/register', registration);
 
 app.use('/', auth);
 app.use('/profile', profile);
-
 app.use('/calendar', month_page);
+app.use('/todos', todo);
 
 app.get('/drop', function (req, res) {
     //clear db code
@@ -114,7 +115,9 @@ app.get('/events', function(req, res) {
 });
 
 app.get('/notes', function(req, res) {
-    Note.find({}, function(err, notes) {
+    Note.find({
+        user_id : req.user_id
+    }, function(err, notes) {
         res.json(notes);
     });
 });

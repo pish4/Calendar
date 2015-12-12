@@ -1,18 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>todo</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
-</head>
-<body>
+{% extends 'layout.html' %}
+
+{% block title %}Todo{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="css/todos.css">
+{% endblock %}
+
+{% block content %}
 <div class="container" style="text-align: center;">
     <div><h3>30 жовтня</h3></div>
     <div><h4>Профіль : зустрічі</h4></div>
-    <div id="notes">
+    <br />
+    <div class="row" id="notes">
         <div>
             <a href="#1" class="center">Get Here</a><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         </div>
@@ -21,18 +21,19 @@
         </div>
 
     </div>
-
-
-
-    <div>
+    <div class="row" >
+        <br />
         <input type="text">
-        <button class="button button-default">Add Task</button>
+    </div>
+    <div class="row">
+        <br />
+        <button class="btn  btn-primary">Add Task</button>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-<script src="/js/todos.js"></script>
+{% endblock %}
 
-</body>
-</html>
+
+{% block body_end %}
+<script src="js/todos.js"></script>
+{% endblock %}
