@@ -6,6 +6,7 @@ var Note   = require('./models/note');
 var path = require('path');
 
 routes.get('/', function (req, res) {
+    console.log()
 	Note.find({
         user_id: req.user._id,
         event_type_id: req.event_type_id,

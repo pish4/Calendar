@@ -33,7 +33,7 @@ routes.post('/', function(req, res) {
                 message: 'You were successfully added profile'
             });
         } else {
-            res.status(400).send('Event already exist exist');
+            res.status(400).send('Event already exists');
         }
 
     });
