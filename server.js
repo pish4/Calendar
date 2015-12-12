@@ -50,7 +50,7 @@ app.use('/register', registration);
 app.use('/', auth);
 app.use('/profile', profile);
 app.use('/calendar', month_page);
-app.use('/todos', todo);
+app.use('/notes', todo);
 
 app.get('/drop', function (req, res) {
     //clear db code
@@ -124,7 +124,7 @@ app.get('/events', function(req, res) {
     });
 });
 
-app.get('/notes', function(req, res) {
+app.get('/notes_list', function(req, res) {
     Note.find({
         user_id : req.user_id
     }, function(err, notes) {
