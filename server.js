@@ -127,5 +127,7 @@ app.get("*", function (req, res) {
     res.redirect('/calendar')
 });
 
-
-app.listen(3000);
+var http = require('http')
+var port = process.env.PORT || 3000;
+http.createServer(app)
+.listen(port);
