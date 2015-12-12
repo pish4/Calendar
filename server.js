@@ -81,22 +81,32 @@ app.get('/setup', function (req, res) {
 
         // save the sample user
     nick.save(function (err) {
+        if (err) throw err;
+
+        console.log('User saved successfully');
+
+        var event_type = new Event();
+        event_type.event_name = "Кіно";
+        event_type.user_id = nick._id;
+
+        event_type.save(function (err) {
             if (err) throw err;
 
-            console.log('User saved successfully');
+            console.log('event_type saved successfully');
 
-            var event_type = new Event();
-            event_type.event_name = "Кіно";
-            event_type.user_id = nick._id;
+        });
+    });
+    var note = new Note({
+        user_id: nick._id,
+        event_type_id: event_type.Name,
+        text: "visit cousin",
+        date: date.now
+    });
+    note.save(function (err) {
+        if (err) throw err;
 
-            event_type.save(function (err) {
-                if (err) throw err;  
-
-                console.log('event_type saved successfully');
-
-            });   
-    }); 
-
+        console.log('User saved successfully');
+    });
     res.json({success: true});
 
 });
