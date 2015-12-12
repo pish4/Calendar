@@ -5,8 +5,8 @@ var Event   = require('./models/events_type');
 var path = require('path');
 
 routes.get('/', function (req, res) {
-	Event.find({ user_id: req.user.id}, function(err, events) {
-		res.render('profile.html', {'events':events});
+	Event.find({ user_id: req.user._id}, function(err, events) {
+		res.render('profile.html', {'events':events, 'user' : req.user});
 	});
 });
 

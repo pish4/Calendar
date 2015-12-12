@@ -4,12 +4,10 @@ var Events   = require('./models/events_type');
 var auth = require('./auth');
 
 routes.get('/', function (req, res) {
-    auth.get_user_from_token(req.cookies.auth, function(user_data) {
-        Events.find({ user_id: user_data._id}, function(err, events) {
-            res.render('month_page.html', {'events':events});
+        Events.find({ user_id: req.user._id}, function(err, events) {
+            res.render('month_page.html', {'events':events, 'user' : req.user});
         });
-    });
-})
+});
 
 
 module.exports = routes;

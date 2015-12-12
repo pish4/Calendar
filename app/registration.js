@@ -7,7 +7,7 @@ var User   = require('./models/user');
 
 routes.get('/', function (req, res) {
     res.render('registration.html');
-})
+});
 
 routes.post('/', function(req, res) {
     // find the user
