@@ -17,6 +17,7 @@ var nunjucks = require('nunjucks');
 var auth = require('./app/auth');
 var registration = require('./app/registration');
 var profile = require('./app/profile');
+var month_page = require('./app/month_page');
 //~controllers
 
 
@@ -48,9 +49,7 @@ app.use('/register', registration);
 app.use('/', auth);
 app.use('/profile', profile);
 
-app.get('/calendar', function (req, res) {
-    res.sendFile(path.resolve('public/views/month-page.html'));
-});
+app.use('/calendar', month_page);
 
 app.get('/drop', function (req, res) {
     //clear db code
@@ -101,9 +100,6 @@ app.get('/setup', function (req, res) {
 
 });
 
-app.get('/calendar', function (req, res) {
-    res.sendFile(path.resolve('public/views/month-page.html'));
-});
 
 app.get('/users', function(req, res) {
     User.find({}, function(err, users) {
