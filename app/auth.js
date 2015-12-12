@@ -1,0 +1,54 @@
+var express = require('express');
+var routes = express.Router();
+var config = require('../config');
+var jwt = require('jsonwebtoken');
+var User = require('./models/user');
+var path = require('path');
+
+routes.post('/login', function (req, res) {
+    // find the user
+    User.findOne({
+        phone: req.body.phone
+    }, function (err, user) {
+
+        if (err) throw err;
+
+        if (!user) {
+            res.status(400).send('Number does not exist');
+        } else if (user) {
+            // if user is found and password is right
+            // create a token
+            var token = jwt.sign(user, config.password, {
+                expiresIn: 1440 * 60 // expires in 24 hours
+            });
+
+            res.cookie('auth', token, {maxAge: 10000000000});
+
+            res.redirect('/calendar');
+        }
+    });
+});
+
+var get_user_from_token = function(token, callback){
+    if (token) {
+        // verifies secret and checks exp
+        jwt.verify(token, config.password, function (err, decoded) {
+            if (!err) {
+                callback(decoded)
+            }
+        });
+    } 
+}
+
+routes.get('/login', function(req, res){
+    res.render('login.html')
+});
+
+
+routes.get('/logout', function (req, res) {
+    res.clearCookie('auth');
+    res.redirect('/login');
+});
+
+module.exports = routes;
+module.exports.get_user_from_token = get_user_from_token;

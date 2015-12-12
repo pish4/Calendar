@@ -3,72 +3,133 @@ var express = require("express");
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-
-var db = mongoose.createConnection('mongodb://elythingol:valakventa22@ds052408.mongolab.com:52408/codephareses');//під"єднання до бази данних
-
-var PhraseSchema = new mongoose.Schema({ //створення схеми для опису данних в колекції
-    phrase: String//данними буде фраза, яка має бути String типу
-});//поля неприсутні чи не вірно описані в схемі будуть відкинуті або можуть створити помилку
-
-var Phrase = db.model('pharases', PhraseSchema);//під"єднання до існуючої колекції pharases, стоворення моделі данних Phrase
-
+var config = require('./config');
+var User = require('./app/models/user');
+var Event = require('./app/models/events_type');
+var Note = require('./app/models/note');
+var cookieParser = require('cookie-parser');
+var db = mongoose.connect(config.database);//під"єднання до бази данних
+var nunjucks = require('nunjucks');
 //налаштування сервера
 
+
+//controllers
+var auth = require('./app/auth');
+var registration = require('./app/registration');
+var profile = require('./app/profile');
+//~controllers
+
+
+var path = require('path');
 app.use(express.static('public')); //папка яка буде кореневою (__dirname = public)
 
+//налаштування сервера
+app.set('superSecret', config.password);
 //налаштування bodyParser модуля
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+app.use(cookieParser(config.password));
+
+//set view folder
+//you could render your html just runing  res.render('login.html');
+//I don`t know wat autoescape mean
+nunjucks.configure('public/views/', {
+    autoescape: true,
+    express: app
+});
+
 
 //REST роути сервера
 
+app.use('/register', registration);
+
+app.use('/', auth);
+app.use('/profile', profile);
+
+app.get('/calendar', function (req, res) {
+    res.sendFile(path.resolve('public/views/month-page.html'));
+});
+
+app.get('/drop', function (req, res) {
+    //clear db code
+    User.remove({}, function () {
+        console.log("droped User")
+
+    });
+    
+    Event.remove({}, function () {
+        console.log("droped Event")
+    });
+    Note.remove({}, function () {
+        console.log("droped Note")
+    });
+    res.json({success: true});
+});
+
 //POST запид до login адресси, авторизація користувача
-app.post("/login", function (req, res) {    //функція приймає 2 параметри req - request(запит який прийшов) та res - response (відповідь від сервера)
-    Phrase.findOne({ "phrase": req.body.phrase})//у колекції шукається кодова фраза і повертається результат
-        .exec(function(err, doc){  //виконання результату (exec - execution) doc - document, знайдені співпадіння, якщо їх немає doc = null; err - Error, помилки
-            if (!(doc || err)) {//якщо документ пустий або виникла помилка
-                res.status(500).send({error: "hi, there was an error" });    //відповідь від сервера - помилка
-            } else {
-                res.send(doc.get('phrase'))//якщо документ не пустий і помилки немає - відправити знайдену кодову фразу з документа
-            }
-        })
-})
+app.get('/setup', function (req, res) {
+    
+    // create a sample user
+    var nick = new User({
+            firstName: "Andriy",
+            secondName: 'Skolotianyi',
+            phone: "0501870402",
+            city: "Lviv"
+        });
 
-//POST запид до newphrase адресси, створення нової фрази
-app.post("/newphrase", function (req, res) {
-    var newPhrase = new Phrase(req.body);//створеня нового документу, базуючись на отриманих данних, які мають відповідати схемі
-    newPhrase.save(function (err, product) {//збереження нового документу в колекції
-        if (err) {//у випадку помилки
-            res.status(500).send({ error: "hi, there was an error" });//відіслати помилку
-        } else {
-            res.send(product.get('phrase'))//якщо помилки немає - відіслати ново кодову фразу
-        }
-    })
-})
+        // save the sample user
+    nick.save(function (err) {
+            if (err) throw err;
 
-//POST запид до changephrase адресси, зміна фрази
-app.post("/changephrase", function (req, res) {
-    Phrase.findOneAndUpdate(req.body.oldphrase, req.body.newphrase, {new :true})//пошук станої фрази, та заміна її на нову
-        .exec(function(err, doc){
-            if (err || !doc){
-                res.status(500).send({ error: "hi, there was an error" });
-            } else {
-                res.send(doc.get('phrase'))
-            }
-        })
+            console.log('User saved successfully');
 
+            var event_type = new Event();
+            event_type.event_name = "Кіно"
+            event_type.user_id = nick._id
 
-})
+            event_type.save(function (err) {
+                if (err) throw err;  
 
+                console.log('event_type saved successfully');
+
+            });   
+    }); 
+
+    res.json({success: true});
+
+});
+
+app.get('/calendar', function (req, res) {
+    res.sendFile(path.resolve('public/views/month-page.html'));
+});
+
+app.get('/users', function(req, res) {
+    User.find({}, function(err, users) {
+        res.json(users);
+    });
+});
+
+app.get('/events', function(req, res) {
+    Event.find({}, function(err, events) {
+        res.json(events);
+    });
+});
+
+app.get('/notes', function(req, res) {
+    Note.find({}, function(err, notes) {
+        res.json(notes);
+    });
+});
 
 
 /* serves main page */
-app.get("*", function (req, res) {//у випадку будь якого GET запиту який не має роута
-    res.sendFile('public/index.html', { //відправити в браузер файл index.html
-        root: __dirname //використовувавти для файлу index.html public папку яу корневу (__dirname вказується за допомогою app.use(express.static('public'));)
-    });
+//site port
+//у випадку будь якого GET запиту який не має роута відправити на логін
+app.get("*", function (req, res) {
+    res.redirect('/login')
 });
+
 
 app.listen(3000);

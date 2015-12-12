@@ -1,4 +1,4 @@
-node_modules
-public/libs
-.vscode
-.idea/workspace.xml
+node_modules/
+public/libs/
+.vscode/
+.idea/

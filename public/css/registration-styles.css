@@ -1,0 +1,13 @@
+h1 {
+    text-align: center;
+}
+
+.center {
+    margin: auto;
+    width: 30%;
+}
+
+.form-padding {
+    padding-left: 30px;
+    padding-right: 30px;
+}
