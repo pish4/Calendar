@@ -23,35 +23,22 @@ routes.post('/login', function (req, res) {
             });
 
             res.cookie('auth', token, {maxAge: 10000000000});
-            res.cookie('auth', token, { maxAge: 10000000000 });
-            // return the information including token as JSON
-            res.json({
-                success: true,
-                message: 'You were successfully logged in'
-            });
+
+            res.redirect('/calendar');
         }
     });
 });
 
-routes.use(function (req, res, next) {
-    // check header or url parameters or post parameters for token
-    var token = req.cookies.auth;
-
-    // decode token
+var get_user_from_token = function(token, callback){
     if (token) {
-
         // verifies secret and checks exp
         jwt.verify(token, config.password, function (err, decoded) {
-            if (err) {
-                return res.json({success: false, message: 'Failed to authenticate token.'});
-            } else {
-                // if everything is good, save to request for use in other routes
-                req.decoded = decoded;
+            if (!err) {
+                callback(decoded)
             }
         });
     } 
-    next();
-});
+}
 
 routes.get('/login', function(req, res){
     res.render('login.html')
@@ -64,3 +51,4 @@ routes.get('/logout', function (req, res) {
 });
 
 module.exports = routes;
+module.exports.get_user_from_token = get_user_from_token;

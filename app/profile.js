@@ -2,17 +2,18 @@ var express = require('express');
 var routes = express.Router();
 var config = require('../config');
 var jwt    = require('jsonwebtoken');
-var User   = require('./models/user');
+var Event   = require('./models/events_type');
 var path = require('path');
-
-routes.get('/:phone_number', function (req, res) {
-	var phone_number = req.params.phone_number;
-    res.render('profile.html');
-})
+var auth = require('./auth');
 
 routes.get('/', function (req, res) {
-	//here should be riderect to current user profile
-    res.redirect('/login/');
+
+	auth.get_user_from_token(req.cookies.auth, function(user_data) {
+	    Event.find({ user_id: user_data._id}, function(err, events) {
+	        res.render('profile.html', {'events':events});
+	    });
+	});
+
 })
 
 
