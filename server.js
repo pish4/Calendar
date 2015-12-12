@@ -86,8 +86,8 @@ app.get('/setup', function (req, res) {
             console.log('User saved successfully');
 
             var event_type = new Event();
-            event_type.event_name = "Кіно"
-            event_type.user_id = nick._id
+            event_type.event_name = "Кіно";
+            event_type.user_id = nick._id;
 
             event_type.save(function (err) {
                 if (err) throw err;  
