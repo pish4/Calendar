@@ -114,7 +114,9 @@ app.get('/events', function(req, res) {
 });
 
 app.get('/notes', function(req, res) {
-    Note.find({}, function(err, notes) {
+    Note.find({
+        user_id : req.user_id
+    }, function(err, notes) {
         res.json(notes);
     });
 });
