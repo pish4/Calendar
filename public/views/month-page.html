@@ -16,7 +16,7 @@
         var cur_year = dDate.getFullYear();
 
         var Prev_Element = {};
-        var bgcolor, webgcolor, wecolor, nwecolor, tbgcolor, ntbgcolor, sbgcolor;
+        var wecolor, ntbgcolor, sbgcolor;
 
 
         function opted_day(el)
@@ -89,7 +89,7 @@
             return the_month;
         }
 
-        function draw_cal(iYear, iMonth, cell_width, cell_height, text_weight, iwecolor, intbgcolor, isbgcolor) {
+        function draw_cal(iYear, iMonth, cell_width, cell_height, text_weight, iwecolor, intbgcolor, isbgcolor)  {
 
             wecolor=iwecolor;
             ntbgcolor=intbgcolor;
@@ -195,7 +195,16 @@
                                             break;
 
                                     }
-                                    document.write("<h2>" + monthName + "</h2>");
+                                    document.write("<h2><strong>" + monthName + "</strong></h2>");
+                                </script>
+
+                                <h3>Профіль</h3>
+
+                                <select name="sel_profile" onchange=''>
+
+                                </select>
+
+                                <script>
                                     var cur_date=new Date();
                                     draw_cal(cur_date.getFullYear(), cur_date.getMonth() + 1, 30, 16, "green", "green", "#26d9d9", "#F6F6F6");
                                     cur_month.options[cur_date.getMonth()].selected=true;
