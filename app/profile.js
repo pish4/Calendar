@@ -30,7 +30,7 @@ routes.post('/', function(req, res) {
 
             res.json({
                 success: true,
-                message: 'You were successfully logged in'
+                message: 'You were successfully added profile'
             });
         } else {
             res.status(400).send('Event already exist exist');
@@ -39,7 +39,24 @@ routes.post('/', function(req, res) {
     });
 });
 
-
-
+routes.post('/remove', function(req, res) {
+    // find the user
+    var envent_name = req.body.event_name;
+    var user_id = req.user._id;
+    Event.remove({
+        event_name: envent_name,
+        user_id: user_id
+    }, function(err, removed) {
+        if (err) {
+        	console.log("fail")
+        	res.status(400).send('Can`t remove. Please refresh page');
+        } else {
+        	res.json({
+                success: true,
+                message: 'You were successfully removed profile'
+            });
+        }
+    });
+});
 
 module.exports = routes;

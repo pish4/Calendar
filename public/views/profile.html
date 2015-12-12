@@ -27,7 +27,10 @@
                 <hr/>
                 <ul class="list-group" id="events_list">
                     {% for event in events %}
-                    <li class="list-group-item">{{ event.event_name }}</li>
+                    <li class="list-group-item">
+                      <span>{{ event.event_name }}</span>
+                      <span class="glyphicon glyphicon-remove"></span>
+                    </li>
                     {% endfor %}  
                 </ul>
                 <div class="row" >
