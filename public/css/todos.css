@@ -4,3 +4,14 @@
     margin-left: 10px;
     cursor: pointer;
 }
+
+#errorText
+{
+    color: red;
+    margin-left: 10px;
+}
+
+.TodoItem
+{
+    pointer-events: none;
+}

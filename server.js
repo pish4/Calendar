@@ -91,9 +91,50 @@ app.get('/setup', function (req, res) {
 
         event_type.save(function (err) {
             if (err) throw err;
-
             console.log('event_type saved successfully');
+        });
 
+        ////////////////////////////////////////////////
+        event_type = new Event();
+        event_type.event_name = "Вистава";
+        event_type.user_id = nick._id;
+
+        event_type.save(function (err) {
+            if (err) throw err;
+            console.log('event_type saved successfully');
+        });
+
+        ////////////////////////////////////////////////
+        event_type = new Event();
+        event_type.event_name = "Лекція";
+        event_type.user_id = nick._id;
+
+
+        event_type.save(function (err) {
+            if (err) throw err;
+            console.log('event_type saved successfully');
+        });
+
+        ////////////////////////////////////////////////
+
+        event_type = new Event();
+        event_type.event_name = "Саморозвиток";
+        event_type.user_id = nick._id;
+
+        event_type.save(function (err) {
+            if (err) throw err;
+            console.log('event_type saved successfully');
+        });
+
+        ////////////////////////////////////////////////
+
+        event_type = new Event();
+        event_type.event_name = "Сон";
+        event_type.user_id = nick._id;
+
+        event_type.save(function (err) {
+            if (err) throw err;
+            console.log('event_type saved successfully');
         });
     });
     var note = new Note({
@@ -104,8 +145,17 @@ app.get('/setup', function (req, res) {
     });
     note.save(function (err) {
         if (err) throw err;
-
-        console.log('User saved successfully');
+        console.log('Note saved successfully');
+    });
+    var note = new Note({
+        user_id: nick._id,
+        event_type_id: event_type.Name,
+        text: "visit cousin",
+        date: date.now
+    });
+    note.save(function (err) {
+        if (err) throw err;
+        console.log('Note saved successfully');
     });
     res.json({success: true});
 
