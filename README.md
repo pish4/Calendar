@@ -1,5 +1,6 @@
 # Calendar
 https://calendar-pmi31.herokuapp.com/
+http://calendaruniversity.azurewebsites.net/
 ##PMI-31
 ## Team members:
  - Сколотяний Андрій (Логін)
