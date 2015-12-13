@@ -7,7 +7,6 @@ var path = require('path');
 
 routes.get('/', function (req, res) {
     Event.findById(req.query.eventId, function (err, profile) {
-        if(err) throw err;
         Note.find({
             user_id: req.user._id,
             event_type_id: req.query.eventId,
@@ -49,7 +48,6 @@ routes.post('/remove', function (req, res) {
         date : req.body.date
     }, function(err, removed) {
         if (err) {
-            console.log("fail")
             res.status(400).send('Can`t remove. Please refresh page');
         } else {
             res.json({

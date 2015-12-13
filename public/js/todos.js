@@ -7,7 +7,6 @@ var callback = function (err, data) {
         return console.error(err);
     }
     else {
-        console.log(data);
         setTodos(data);
     }
 }
@@ -66,12 +65,10 @@ $('#addTaskButton').click(function()
 });
 
 function onSuccess(msg){
-    console.log("reload!!!!")
     location.reload(true);
 }
 
 function onError(XMLHttpRequest) {
-    console.log("fail!!!!")
     $('#errorText').text(XMLHttpRequest.responseText);
 }
 
