@@ -1,5 +1,5 @@
 # Calendar
-Хостинг Тараса Паничка: https://calendar-pmi31.herokuapp.com/                                       
+Хостинг Паничка Тараса: https://calendar-pmi31.herokuapp.com/                                       
 Хостинг Сколотяного Андрія: http://calendaruniversity.azurewebsites.net/                                
 Хостинг Прийми Юрія: http://46.101.172.53/
 ##PMI-31
