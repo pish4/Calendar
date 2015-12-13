@@ -3,7 +3,6 @@ $(function() {
         '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
          '<strong>Error: </strong> <span id="errorText"></span>' +
     '</div>';
-    var event_list_item = 
 
     $('#btnAddEvent').click(function () {
         var event_name = $.trim($('#textBox').val());
@@ -22,7 +21,7 @@ $(function() {
                     li_item.remove();
                     $("#errorAlert").remove();
                 }, onError);
-        }   
+        }
     });
 
 
@@ -35,9 +34,6 @@ $(function() {
         $("#errorAlert").remove();
     }
 
-    function qwerty() {
-        console.log("qwert")
-    }
 
     function onError(XMLHttpRequest) {
         $('#events_block').append(errorAlert);

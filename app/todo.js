@@ -6,26 +6,56 @@ var Note   = require('./models/note');
 var path = require('path');
 
 routes.get('/', function (req, res) {
-	Note.find({
-        user_id: req.user._id,
-        event_type_id: req.event_type_id,
-        date: req.date
+    Event.findById(req.query.eventId, function (err, profile) {
+        Note.find({
+            user_id: req.user._id,
+            event_type_id: req.query.eventId,
+            date:  req.query.date
+        }, function(err, notes) {
 
-    }, function(err, notes) {
-		res.render('todos.html', {'notes':notes, 'user' : req.user});
-	});
+            if (err) throw err;
+
+            res.render('todos.html', {
+                'notes': notes,
+                'user' : req.user,
+                'date' : req.query.date,
+                'event_name' : profile.event_name
+            });
+        });
+    });
 });
 
 routes.post('/', function (req, res) {
     var newNote = new Note({
-        user_id: req.body.user_id,
-        event_type_id: req.body.event_type_id,
-        text: req.body.text,
-        date: req.body.date
+        user_id : req.user._id,
+        event_type_id : req.body.eventId,
+        text : req.body.text,
+        date : req.body.date
     });
     newNote.save();
 
-    res.reload(true);
+    res.json({
+        success: true,
+        message: 'You were successfully removed profile'
+    });
+});
+
+routes.post('/remove', function (req, res) {
+    Note.remove({
+        user_id : req.user._id,
+        event_type_id : req.body.eventId,
+        text : req.body.text,
+        date : req.body.date
+    }, function(err, removed) {
+        if (err) {
+            res.status(400).send('Can`t remove. Please refresh page');
+        } else {
+            res.json({
+                success: true,
+                message: 'You successfully removed item'
+            });
+        }
+    });
 });
 
 module.exports = routes;

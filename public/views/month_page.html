@@ -32,7 +32,7 @@
                     console.log(document.getElementById('sel_profile'));
                     var selectedValue =$('#sel_profile').find(":selected").attr('id') ;
 
-                    var url = '/notes?date=' + document.all.selected_date.value+'/'+cur_month + '/' + cur_year + '&eventId='
+                    var url = '/notes?date=' + document.all.selected_date.value+'/'+ (cur_month+1) + '/' + cur_year + '&eventId='
 
                             + selectedValue;
 

@@ -50,7 +50,7 @@ app.use('/register', registration);
 app.use('/', auth);
 app.use('/profile', profile);
 app.use('/calendar', month_page);
-app.use('/todos', todo);
+app.use('/notes', todo);
 
 app.get('/drop', function (req, res) {
     //clear db code
@@ -91,9 +91,50 @@ app.get('/setup', function (req, res) {
 
         event_type.save(function (err) {
             if (err) throw err;
-
             console.log('event_type saved successfully');
+        });
 
+        ////////////////////////////////////////////////
+        event_type = new Event();
+        event_type.event_name = "Вистава";
+        event_type.user_id = nick._id;
+
+        event_type.save(function (err) {
+            if (err) throw err;
+            console.log('event_type saved successfully');
+        });
+
+        ////////////////////////////////////////////////
+        event_type = new Event();
+        event_type.event_name = "Лекція";
+        event_type.user_id = nick._id;
+
+
+        event_type.save(function (err) {
+            if (err) throw err;
+            console.log('event_type saved successfully');
+        });
+
+        ////////////////////////////////////////////////
+
+        event_type = new Event();
+        event_type.event_name = "Саморозвиток";
+        event_type.user_id = nick._id;
+
+        event_type.save(function (err) {
+            if (err) throw err;
+            console.log('event_type saved successfully');
+        });
+
+        ////////////////////////////////////////////////
+
+        event_type = new Event();
+        event_type.event_name = "Сон";
+        event_type.user_id = nick._id;
+
+        event_type.save(function (err) {
+            if (err) throw err;
+            console.log('event_type saved successfully');
         });
     });
     var note = new Note({
@@ -104,8 +145,17 @@ app.get('/setup', function (req, res) {
     });
     note.save(function (err) {
         if (err) throw err;
-
-        console.log('User saved successfully');
+        console.log('Note saved successfully');
+    });
+    var note = new Note({
+        user_id: nick._id,
+        event_type_id: event_type.Name,
+        text: "visit cousin",
+        date: date.now
+    });
+    note.save(function (err) {
+        if (err) throw err;
+        console.log('Note saved successfully');
     });
     res.json({success: true});
 
@@ -124,7 +174,7 @@ app.get('/events', function(req, res) {
     });
 });
 
-app.get('/notes', function(req, res) {
+app.get('/notes_list', function(req, res) {
     Note.find({
         user_id : req.user_id
     }, function(err, notes) {

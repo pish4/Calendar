@@ -7,7 +7,6 @@ var callback = function (err, data) {
         return console.error(err);
     }
     else {
-        console.log(data);
         setTodos(data);
     }
 }
@@ -49,16 +48,46 @@ var getUrlParameter = function getUrlParameter(sParam) {
     }
 };
 
+$('#addTaskButton').click(function()
+{
+    var value = $('#new_note_item').val();
 
-$(document).ready(function() {
-
-    var userId;
-    var event_type_id = getUrlParameter('event_type_id');
     var date = getUrlParameter('date');
+    var eventId = getUrlParameter('eventId');
+    //var url = '/notes?date=' + document.all.selected_date.value+'/'+cur_month + '/' + cur_year + '&eventId=' + selectedValue;
+    if (value != "") {
+        $.post('/notes', {
+            date : date,
+            eventId : eventId,
+            text : value
+        }).then(onSuccess, onError);
+    }
+});
 
-    Note.find({
-        user_id: String,
-        event_type_id: String,
-        date: String }, callback);
+function onSuccess(msg){
+    location.reload(true);
+}
 
+function onError(XMLHttpRequest) {
+    $('#errorText').text(XMLHttpRequest.responseText);
+}
+
+$(function()
+{
+    $('.removeTask').on('click', function() {
+        var li_item = $(this).parent()
+        var date = getUrlParameter('date');
+        var eventId = getUrlParameter('eventId');
+        var value = $(this).prev().text();
+
+        $.post('/notes/remove', {
+                date : date,
+                eventId : eventId,
+                text : value
+        })
+            .then(function() {
+                li_item.remove();
+                $("#errorAlert").remove();
+            }, onError);
+    });
 });

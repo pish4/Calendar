@@ -33,7 +33,7 @@ routes.post('/', function(req, res) {
                 message: 'You were successfully added profile'
             });
         } else {
-            res.status(400).send('Event already exist exist');
+            res.status(400).send('Event already exists');
         }
 
     });
@@ -48,7 +48,6 @@ routes.post('/remove', function(req, res) {
         user_id: user_id
     }, function(err, removed) {
         if (err) {
-        	console.log("fail")
         	res.status(400).send('Can`t remove. Please refresh page');
         } else {
         	res.json({

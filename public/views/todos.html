@@ -9,25 +9,26 @@
 
 {% block content %}
 <div class="container" style="text-align: center;">
-    <div><h3>30 жовтня</h3></div>
-    <div><h4>Профіль : зустрічі</h4></div>
+    <div><h3>{{ date }}</h3></div>
+    <div><h4>Профіль : {{ event_name }}</h4></div>
     <br />
     <div class="row" id="notes">
-        <div>
-            <a href="#1" class="center">Get Here</a><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        {% for note in notes %}
+        <div class="note_item">
+            <a href="" class="center" class="TodoItem">{{ note.text }}</a><span class="glyphicon glyphicon-remove removeTask" aria-hidden="true"></span>
         </div>
-        <div>
-            <a href="#2" class="center">Get There</a><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-        </div>
-
+        {% endfor %}
     </div>
     <div class="row" >
         <br />
-        <input type="text">
+        <input type="text" id="new_note_item">
     </div>
     <div class="row">
         <br />
-        <button class="btn  btn-primary">Add Task</button>
+        <button class="btn  btn-primary" id="addTaskButton">Add Task</button>
+    </div>
+    <div class="row" id="errorText">
+
     </div>
 </div>
 
